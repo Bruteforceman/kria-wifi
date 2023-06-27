@@ -12,8 +12,11 @@ sudo systemctl disable NetworkManager
 # create a wpa file with ssid and passphrase
 wpa_passphrase $1 $2 | sudo tee /etc/wpa_supplicant.conf
 
+# connect to the wifi via wpa_supplicant
+sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i $INTERFACE
+
 # get an ip address
-sudo dhclient $INTERFACE -r
+sudo dhclient $INTERFACE
 
 # set up the service files
 sudo cp wpa_supplicant.service /etc/systemd/system/wpa_supplicant.service
