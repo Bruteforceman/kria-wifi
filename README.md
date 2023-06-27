@@ -17,4 +17,4 @@ sudo ./setup.sh YOUR-SSID-NAME YOUR-PASSPHRASE
 
 Once that runs to completion, you can test your internet connection by running `ping 8.8.8.8` or any other URL. You should also make sure you're connected to the desired network by checking the output from `iwconfig`
 
-After this, you can run `reboot` and make sure you're connected to the network without automatically. 
+After this, you can run `reboot` and make sure you're connected to the network automatically. 
