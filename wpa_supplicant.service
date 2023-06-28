@@ -8,7 +8,7 @@ IgnoreOnIsolate=true
 [Service]
 Type=dbus
 BusName=fi.w1.wpa_supplicant1
-ExecStart=/sbin/wpa_supplicant -u -s -c /etc/wpa_supplicant.conf -i wlx08beac12c548
+ExecStart=/sbin/wpa_supplicant -u -s -c /etc/wpa_supplicant.conf -i $INTERFACE
 Restart=always
 ExecReload=/bin/kill -HUP $MAINPID
 
