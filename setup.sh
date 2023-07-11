@@ -27,7 +27,8 @@ sudo systemctl stop NetworkManager
 sudo systemctl disable NetworkManager
 
 # create a wpa file with ssid and passphrase
-wpa_passphrase $SSID $PASSPHRASE | sudo tee /etc/wpa_supplicant.conf
+# wpa_passphrase $SSID $PASSPHRASE | sudo tee /etc/wpa_supplicant.conf
+echo -e "$(wpa_passphrase $SSID $PASSPHRASE | head -n 4)" "\n\tscan_ssid=1" "\n}" | sudo tee /etc/wpa_supplicant.conf
 
 # connect to the wifi via wpa_supplicant
 sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i $INTERFACE
