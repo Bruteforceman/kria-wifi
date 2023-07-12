@@ -6,17 +6,6 @@
 SSID=$1
 PASSPHRASE=$2
 
-export INTERFACE=$(ifconfig | awk '$1 ~ /^wl/ {print $1}' | rev | cut -c 2- | rev)
-
-if [ -z "$INTERFACE" ]
-then
-	echo 'No valid interface found. Please insert a wifi dongle or manually assign the INTERFACE variable in the script'
-	exit
-fi
-
-echo 'Interface found' $INTERFACE
-
-
 # Don't edit anything after this
 
 echo 'Setting up wifi for interface' $INTERFACE
@@ -30,15 +19,12 @@ sudo systemctl disable NetworkManager
 # wpa_passphrase $SSID $PASSPHRASE | sudo tee /etc/wpa_supplicant.conf
 echo -e "$(wpa_passphrase $SSID $PASSPHRASE | head -n 4)" "\n\tscan_ssid=1" "\n}" | sudo tee /etc/wpa_supplicant.conf
 
-# connect to the wifi via wpa_supplicant
-sudo wpa_supplicant -B -c /etc/wpa_supplicant.conf -i $INTERFACE
-
-# get an ip address
-sudo dhclient $INTERFACE
+cat wifi.sh | sudo tee /usr/bin/wifi.sh
+chmod +x /usr/bin/wifi.sh
 
 # set up the service files
-envsubst < wpa_supplicant.service | sudo tee /etc/systemd/system/wpa_supplicant.service
-envsubst < dhclient.service | sudo tee /etc/systemd/system/dhclient.service
+cat wpa_supplicant.service | sudo tee /etc/systemd/system/wpa_supplicant.service
+cat dhclient.service | sudo tee /etc/systemd/system/dhclient.service
 
 # enable the service files at boot
 sudo systemctl enable dhclient.service

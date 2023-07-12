@@ -4,8 +4,8 @@ Before=network.target
 
 [Service]
 Type=forking
-ExecStart=/sbin/dhclient $INTERFACE -v
-ExecStop=/sbin/dhclient $INTERFACE -r
+ExecStart=/sbin/dhclient "$(ifconfig | awk '$1 ~ /^wl/ {print $1}' | rev | cut -c 2- | rev)" -v
+ExecStop=/sbin/dhclient "$(ifconfig | awk '$1 ~ /^wl/ {print $1}' | rev | cut -c 2- | rev)" -r
 Restart=always
 
 [Install]
